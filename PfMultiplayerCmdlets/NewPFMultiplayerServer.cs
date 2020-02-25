@@ -25,7 +25,7 @@
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public List<AzureRegion> PreferredRegions { get; set; }
+        public List<string> PreferredRegions { get; set; }
 
         internal string GetBuildId(string buildName, Guid? buildId)
         {

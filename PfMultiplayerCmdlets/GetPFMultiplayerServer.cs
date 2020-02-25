@@ -18,7 +18,7 @@
         public Guid? BuildId { get; set; }
 
         [Parameter]
-        public List<AzureRegion> Regions { get; set; }
+        public List<string> Regions { get; set; }
 
         [Parameter]
         public SwitchParameter AllRegions { get; set; }
@@ -37,11 +37,11 @@
 
             string buildIdString = GetBuildId(BuildName, BuildId);
 
-            HashSet<AzureRegion> regionsList = new HashSet<AzureRegion>();
+            HashSet<string> regionsList = new HashSet<string>();
             if (AllRegions)
             {
                 GetBuildResponse response = Instance.GetBuildAsync(new GetBuildRequest() { BuildId = buildIdString }).Result.Result;
-                response.RegionConfigurations.ForEach(x => regionsList.Add(x.Region.Value));
+                response.RegionConfigurations.ForEach(x => regionsList.Add(x.Region));
             }
             else
             {
@@ -49,7 +49,7 @@
             }
 
             List<MultiplayerServerSummary> serverSummaries = new List<MultiplayerServerSummary>();
-            foreach (AzureRegion region in regionsList)
+            foreach (string region in regionsList)
             {
                 serverSummaries.AddRange(GetMultiplayerServers(buildIdString, region));
             }
@@ -57,7 +57,7 @@
             WriteObject(serverSummaries);
         }
 
-        private List<MultiplayerServerSummary> GetMultiplayerServers(string buildId, AzureRegion region)
+        private List<MultiplayerServerSummary> GetMultiplayerServers(string buildId, string region)
         {
             List<MultiplayerServerSummary> summaries = new List<MultiplayerServerSummary>();
             ListMultiplayerServersResponse response = CallPlayFabApi(() => Instance

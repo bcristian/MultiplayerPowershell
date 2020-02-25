@@ -66,7 +66,8 @@
                 BuildId = buildSummary.BuildId,
                 BuildName = buildSummary.BuildName,
                 CreationTime = buildSummary.CreationTime,
-                Metadata = buildSummary.Metadata
+                Metadata = buildSummary.Metadata,
+                RegionConfigurations = buildSummary.RegionConfigurations
             };
         }
 
